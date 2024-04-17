@@ -1,5 +1,5 @@
 {
-  "name": "always-tail",
+  "name": "@progresskinvey/always-tail",
   "version": "0.3.0",
   "description": "continuous file tail. robust enough to survive rollovers.",
   "main": "index.js",

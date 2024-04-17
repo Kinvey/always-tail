@@ -3,7 +3,7 @@ var Tail, environment, events, fs,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-var debug = require('debug')('always-tail');
+var debug = require('debug')('@progresskinvey/always-tail');
 var events = require("events");
 var fs = require('fs');
 
@@ -41,7 +41,7 @@ Tail = (function(_super) {
 
         var start = self.bookmarks[block.fd];
         var end = stat.size;
-  
+
         if (end < start) {
           // file was truncated
           debug('file was truncated:', self.filename);
@@ -88,18 +88,18 @@ Tail = (function(_super) {
    * to read the file to its end even if it is renamed, then automatically starts
    * reading data from the new file.
    *
-   * It does this by monitoring the filename, and when the inode changes, 
+   * It does this by monitoring the filename, and when the inode changes,
    * it will continue to read to the end of the existing file descriptor.
    *
-   * It emits a 'line' event when a new line is read. 
+   * It emits a 'line' event when a new line is read.
    *
    * Credits: Much of this code was built on the node-tail module.
    *
    * @param {String} filename filename to monitor
-   * @param {String} separator default separator is '\n' 
+   * @param {String} separator default separator is '\n'
    * @param {Object} options options object
    * @param {Integer} options.start (optional) start offset to read data from file, default: 0
-   * @param {Integer} options.interval (optional) interval to monitor for changes, default: 5000ms 
+   * @param {Integer} options.interval (optional) interval to monitor for changes, default: 5000ms
    *
    */
   function Tail(filename, separator, options) {
@@ -120,12 +120,12 @@ Tail = (function(_super) {
 
     this.interval = options.interval || 5000;
     this.blockSize = options.blockSize || 1024 * 1024; // 1 MB by default
-   
+
     this.fd = null;
     this.inode = 0;
     this.bookmarks = {};
 
-    if (fs.existsSync(this.filename)) { 
+    if (fs.existsSync(this.filename)) {
       this.fd = fs.openSync(this.filename, 'r');
       var stat = fs.statSync(this.filename);
       this.inode = stat.ino;
@@ -159,17 +159,17 @@ Tail = (function(_super) {
     if (self.watcher) {
       fs.unwatchFile(self.filename);
     };
-    
+
     if (self.fd) {
-      fs.close(self.fd); 
+      fs.close(self.fd);
       self.fd = null;
     };
 
-    // close any legacy fds 
+    // close any legacy fds
     for (var i in self.queue) {
       var item = self.queue[i];
       if (item.type == 'close') {
-        fs.close(item.fd); 
+        fs.close(item.fd);
       };
     };
 
@@ -188,7 +188,7 @@ Tail = (function(_super) {
     var self = this;
     callback = callback || function() {};
 
-    if (self.fd == null) return callback(); 
+    if (self.fd == null) return callback();
 
     self.queue.push({
       type: 'close',
@@ -209,9 +209,9 @@ Tail = (function(_super) {
     var self = this;
 
     if (self.watcher) return;
-    
+
     self.checking = false;
-   
+
     self.watcher = fs.watchFile(this.filename, { interval: self.interval }, function(curr, prev) {
 
       if (self.checking) return;
@@ -228,7 +228,7 @@ Tail = (function(_super) {
              }
              callback();
            });
-         } else { 
+         } else {
           callback();
          }
        };
@@ -254,9 +254,9 @@ Tail = (function(_super) {
               if (self.queue.length > 0) {
                 return self.internalDispatcher.emit("next");
               }
-            });    
+            });
           });
-        }); 
+        });
       } else {
         checkOpen(function() {
           readPending(function() {
@@ -265,7 +265,7 @@ Tail = (function(_super) {
               return self.internalDispatcher.emit("next");
             }
           });
-        }) 
+        })
       }
     });
   };
