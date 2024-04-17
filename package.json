@@ -1,6 +1,6 @@
 {
   "name": "always-tail",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "continuous file tail. robust enough to survive rollovers.",
   "main": "index.js",
   "scripts": {
@@ -12,13 +12,13 @@
   ],
   "author": "Jen Andre <jandre@gmail.com>",
   "contributors": [
-  { 
-    "name": "Artur Kraev", 
+  {
+    "name": "Artur Kraev",
     "email": "ravenox@gmail.com"
   }
   ],
   "license": "MIT",
   "dependencies": {
-    "debug": "~0.7.2"
+    "debug": "4.3.4"
   }
 }
